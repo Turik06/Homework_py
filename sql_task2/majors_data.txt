@@ -1,0 +1,7 @@
+id_major,name
+101,Computer Science
+102,Mathematics
+103,Physics
+104,History
+105,Philology
+106,Applied computer science

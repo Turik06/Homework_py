@@ -1,0 +1,5 @@
+id_study_level,name
+1,Bachelor
+2,Master
+3,Specialist
+4,PhD
