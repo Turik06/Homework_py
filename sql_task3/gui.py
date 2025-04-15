@@ -1,76 +1,117 @@
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import ttk, messagebox
 from db_data import get_all_goods, make_purchase, get_sales_report
+from datetime import datetime
+import sqlite3
 
-class StoreApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Система учёта продаж")
-        self.selected_goods = {}
-        self.create_widgets()
-        self.load_goods()
+def style_widgets():
+    style = ttk.Style()
+    style.theme_use("clam")
+    style.configure("Treeview", background="#ffffff", foreground="#000000",
+                    rowheight=25, fieldbackground="#ffffff", font=("Arial", 10))
+    style.configure("Treeview.Heading", font=("Arial", 11, "bold"), background="#e1e1e1")
+    style.map("Treeview", background=[('selected', '#cce5ff')])
+    style.configure("TButton", font=("Arial", 10))
+    style.configure("TLabel", font=("Arial", 10))
+    style.configure("TEntry", font=("Arial", 10))
 
-    def create_widgets(self):
-        # Таблица товаров
-        self.tree = ttk.Treeview(self.root, columns=("ID", "Название", "Категория", "Цена", "Остаток"), show="headings")
-        for col in ("ID", "Название", "Категория", "Цена", "Остаток"):
-            self.tree.heading(col, text=col)
-        self.tree.pack(fill=tk.BOTH, expand=True)
+def get_stock_for_goods(goods_id):
+    try:
+        conn = sqlite3.connect("store.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT stock FROM goods WHERE id = ?", (goods_id,))
+        result = cursor.fetchone()
+        conn.close()
+        return result[0] if result else None
+    except:
+        return None
 
-        # Форма покупки
-        frame = tk.Frame(self.root)
-        frame.pack(pady=10)
-        tk.Label(frame, text="Введите ID товара и количество через запятую (напр. 1,2)").grid(row=0, column=0)
-        self.purchase_entry = tk.Entry(frame, width=30)
-        self.purchase_entry.grid(row=1, column=0)
-        buy_btn = tk.Button(frame, text="Купить", command=self.purchase)
-        buy_btn.grid(row=1, column=1, padx=5)
+def load_goods():
+    for i in tree.get_children():
+        tree.delete(i)
+    goods = get_all_goods()
+    for row in goods:
+        tree.insert("", tk.END, values=row)
 
-        # Кнопка отчёта
-        report_btn = tk.Button(self.root, text="Отчет за сегодня", command=self.show_report)
-        report_btn.pack(pady=5)
+def make_purchase_action():
+    try:
+        id_text = entry_id.get().strip()
+        qty_text = entry_qty.get().strip()
 
-    def load_goods(self):
-        # Очистка таблицы
-        for i in self.tree.get_children():
-            self.tree.delete(i)
-        # Загрузка данных товаров
-        goods = get_all_goods()
-        for row in goods:
-            self.tree.insert("", tk.END, values=row)
+        if not id_text or not qty_text:
+            raise ValueError("Оба поля должны быть заполнены.")
 
-    def purchase(self):
-        data = self.purchase_entry.get().strip()
-        if not data:
-            messagebox.showwarning("Ошибка", "Введите данные для покупки.")
-            return
-        try:
-            # Ожидается формат: "id,количество" или несколько пар через точку с запятой
-            # Например: "1,2; 2,1"
-            purchases = []
-            entries = data.split(";")
-            for entry in entries:
-                goods_id, qty = map(int, entry.split(","))
-                purchases.append((goods_id, qty))
-            sale_id, sale_date = make_purchase(purchases)
-            messagebox.showinfo("Покупка", f"Покупка успешно оформлена!\nЧек №{sale_id} от {sale_date}")
-            self.load_goods()
-            self.purchase_entry.delete(0, tk.END)
-        except Exception as e:
-            messagebox.showerror("Ошибка", f"Ошибка при оформлении покупки: {e}")
+        goods_id = int(id_text)
+        quantity = int(qty_text)
 
-    def show_report(self):
-        from datetime import datetime
-        sale_date = datetime.now().strftime("%Y-%m-%d")
-        items, revenue = get_sales_report(sale_date)
-        report = f"Отчет за {sale_date}:\n\n"
-        report += "Проданные товары:\n"
-        for name, total in items:
-            report += f"- {name}: {total} шт.\n"
-        report += f"\nВыручка: {revenue} у.е."
-        messagebox.showinfo("Отчет", report)
+        if quantity <= 0:
+            raise ValueError("Количество должно быть положительным.")
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = StoreApp(root)
-    root.mainloop()
+        stock = get_stock_for_goods(goods_id)
+        if stock is None:
+            raise ValueError("Товар с таким ID не найден.")
+        if quantity > stock:
+            raise ValueError(f"Недостаточно товара на складе. Осталось: {stock} шт.")
+
+        sale_id, sale_date = make_purchase([(goods_id, quantity)])
+        messagebox.showinfo("Покупка", f"Покупка успешно оформлена!\nЧек №{sale_id} от {sale_date}")
+        load_goods()
+        entry_id.delete(0, tk.END)
+        entry_qty.delete(0, tk.END)
+        entry_id.focus()
+
+    except ValueError as ve:
+        messagebox.showwarning("Ошибка ввода", str(ve))
+    except Exception as e:
+        messagebox.showerror("Ошибка", f"Ошибка при покупке: {e}")
+
+def show_report():
+    sale_date = datetime.now().strftime("%Y-%m-%d")
+    items, revenue = get_sales_report(sale_date)
+    report = f"Отчет за {sale_date}:\n\n"
+    report += "Проданные товары:\n"
+    for name, total in items:
+        report += f"- {name}: {total} шт.\n"
+    report += f"\nВыручка: {revenue:.2f} у.е." if revenue else "\nВыручка: 0.00 у.е."
+    messagebox.showinfo("Отчет", report)
+
+# --- Интерфейс ---
+root = tk.Tk()
+root.title("Система учёта продаж")
+root.geometry("800x500")
+root.configure(bg="#f5f5f5")
+
+style_widgets()
+
+title = tk.Label(root, text="Учёт продаж магазина", font=("Arial", 16, "bold"), bg="#f5f5f5")
+title.pack(pady=10)
+
+tree = ttk.Treeview(root, columns=("ID", "Название", "Категория", "Цена", "Остаток"), show="headings", height=10)
+for col in ("ID", "Название", "Категория", "Цена", "Остаток"):
+    tree.heading(col, text=col)
+    tree.column(col, anchor="center", width=130)
+tree.pack(fill=tk.BOTH, padx=20, expand=True)
+
+# --- Блок ввода ---
+form_frame = ttk.Frame(root)
+form_frame.pack(pady=15)
+
+ttk.Label(form_frame, text="ID товара:").grid(row=0, column=0, padx=5)
+entry_id = ttk.Entry(form_frame, width=10)
+entry_id.grid(row=0, column=1, padx=5)
+
+ttk.Label(form_frame, text="Количество:").grid(row=0, column=2, padx=5)
+entry_qty = ttk.Entry(form_frame, width=10)
+entry_qty.grid(row=0, column=3, padx=5)
+
+btn_buy = ttk.Button(form_frame, text="Купить", command=make_purchase_action)
+btn_buy.grid(row=0, column=4, padx=10)
+
+# --- Кнопка отчёта ---
+btn_report = ttk.Button(root, text="Показать отчёт за сегодня", command=show_report)
+btn_report.pack(pady=10)
+
+# --- Загрузка товаров при запуске ---
+load_goods()
+entry_id.focus()
+root.mainloop()
