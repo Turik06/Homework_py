@@ -1,0 +1,7 @@
+league_id,name,country,founded_year
+1,"Premier League","England",1992
+2,"La Liga","Spain",1929
+3,"Bundesliga","Germany",1963
+4,"Serie A","Italy",1898
+5,"Russian Premier League","Russia",2001
+6,"UEFA Champions League","Europe",1955

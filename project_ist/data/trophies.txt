@@ -1,0 +1,41 @@
+trophy_id,team_id,name,competition,year
+1,3,"Premier League Winner 2023","League Title",2023
+2,9,"La Liga Winner 2023","League Title",2023
+3,17,"Bundesliga Winner 2023","League Title",2023
+4,28,"Serie A Winner 2023","League Title",2023
+5,33,"Russian Premier League Winner 2023","League Title",2023
+6,3,"FA Cup Winner 2023","National Cup",2023
+7,10,"Copa del Rey Winner 2023","National Cup",2023
+8,19,"DFB-Pokal Winner 2023","National Cup",2023
+9,29,"Coppa Italia Winner 2023","National Cup",2023
+10,35,"Russian Cup Winner 2023","National Cup",2023
+11,3,"UEFA Champions League Winner 2023","Continental Cup",2023
+12,1,"Premier League Winner 2013","League Title",2013
+13,10,"La Liga Winner 2022","League Title",2022
+14,25,"Serie A Winner 2022","League Title",2022
+15,2,"FA Cup Winner 2022","National Cup",2022
+16,16,"Copa del Rey Winner 2022","National Cup",2022
+17,10,"UEFA Champions League Winner 2022","Continental Cup",2022
+18,33,"Russian Premier League Winner 2022","League Title",2022
+19,4,"UEFA Champions League Winner 2021","Continental Cup",2021
+20,2,"Premier League Winner 2020","League Title",2020
+21,3,"Premier League Winner 2022","League Title",2022
+22,3,"EFL Cup Winner 2023","National Cup",2023
+23,9,"Supercopa de España Winner 2023","National Cup",2023
+24,17,"DFL-Supercup Winner 2023","National Cup",2023
+25,28,"Supercoppa Italiana Winner 2023","National Cup",2023
+26,33,"Russian Super Cup Winner 2023","National Cup",2023
+27,3,"FIFA Club World Cup Winner 2023","International Cup",2023
+28,10,"UEFA Super Cup Winner 2022","Continental Cup",2022
+29,3,"UEFA Super Cup Winner 2023","Continental Cup",2023
+30,25,"Serie A Winner 2021","League Title",2021
+31,10,"La Liga Winner 2021","League Title",2021
+32,1,"Premier League Winner 2021","League Title",2021
+33,9,"La Liga Winner 2020","League Title",2020
+34,16,"Copa del Rey Winner 2020","National Cup",2020
+35,4,"FA Cup Winner 2020","National Cup",2020
+36,3,"EFL Cup Winner 2022","National Cup",2022
+37,33,"Russian Cup Winner 2022","National Cup",2022
+38,28,"Coppa Italia Winner 2022","National Cup",2022
+39,17,"Bundesliga Winner 2022","League Title",2022
+40,17,"DFB-Pokal Winner 2022","National Cup",2022

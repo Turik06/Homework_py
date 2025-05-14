@@ -1,0 +1,41 @@
+team_id,league_id,name,city,founded_year
+1,1,"Manchester United","Manchester",1878
+2,1,"Liverpool FC","Liverpool",1892
+3,1,"Manchester City","Manchester",1880
+4,1,"Chelsea FC","London",1905
+5,1,"Arsenal FC","London",1886
+6,1,"Tottenham Hotspur","London",1882
+7,1,"Newcastle United","Newcastle",1892
+8,1,"Aston Villa","Birmingham",1874
+9,2,"FC Barcelona","Barcelona",1899
+10,2,"Real Madrid","Madrid",1902
+11,2,"Atlético Madrid","Madrid",1903
+12,2,"Sevilla FC","Seville",1890
+13,2,"Valencia CF","Valencia",1919
+14,2,"Athletic Club","Bilbao",1898
+15,2,"Real Sociedad","San Sebastián",1909
+16,2,"Real Betis","Seville",1907
+17,3,"Bayern Munich","Munich",1900
+18,3,"Borussia Dortmund","Dortmund",1909
+19,3,"RB Leipzig","Leipzig",2009
+20,3,"Hertha BSC","Berlin",1892
+21,3,"Bayer Leverkusen","Leverkusen",1904
+22,3,"Eintracht Frankfurt","Frankfurt",1899
+23,3,"VfB Stuttgart","Stuttgart",1893
+24,3,"Borussia Mönchengladbach","Mönchengladbach",1900
+25,4,"AC Milan","Milan",1899
+26,4,"Juventus","Turin",1897
+27,4,"AS Roma","Rome",1927
+28,4,"SSC Napoli","Naples",1926
+29,4,"Inter Milan","Milan",1908
+30,4,"Atalanta BC","Bergamo",1907
+31,4,"ACF Fiorentina","Florence",1926
+32,4,"Torino FC","Turin",1906
+33,5,"Zenit Saint Petersburg","Saint Petersburg",1925
+34,5,"Spartak Moscow","Moscow",1922
+35,5,"CSKA Moscow","Moscow",1911
+36,5,"Lokomotiv Moscow","Moscow",1922
+37,5,"FC Krasnodar","Krasnodar",2008
+38,5,"FC Rostov","Rostov-on-Don",1930
+39,5,"Rubin Kazan","Kazan",1958
+40,5,"Dynamo Moscow","Moscow",1923
